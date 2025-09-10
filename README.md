@@ -4,39 +4,43 @@
 
 Welcome to the "Operating System and Security" project repository! This repository hosts a project that involves exploring and exploiting vulnerabilities in ELF binaries on Linux systems. The project is divided into two parts, each focusing on different aspects of binary exploitation.
 
-## Part 1: Exploring and Exploiting "vuln" ELF Binary
+## Part 1: Hacking the Given Program (vuln)
 
-In Part 1 of the project, you will work with the provided ELF binary named "vuln." This binary, written in C language and compiled for Linux X86 architecture, presents a challenge for gaining access through password validation. To successfully navigate this challenge, you will:
+A binary file is provided that contains a simple password check.
 
-1. Study the provided "vuln" binary.
-2. Explore its behavior and security measures, including ASLR (Address Space Layout Randomization).
-3. Use GDB (GNU Debugger) to analyze the binary's virtual memory addresses.
-4. Disable ASLR to simplify crafting the exploit.
-5. Work on exploiting the binary using step-by-step instructions.
-6. Collaborate with your partner in this group project to complete the task and provide necessary snapshots.
+The program is written in a way that makes it possible to trick.
 
-## Part 2: Crafting and Exploiting Your Vulnerable ELF Program
+GDB (debugger) is used to look inside the program and study its memory and functions.
 
-For Part 2 of the project, you will:
+ASLR is turned off so memory addresses stay fixed and easier to analyze.
 
-1. Develop a vulnerable x86 ELF program on your own.
-2. Exploit your program using the "Return to libc" technique in Linux.
-3. Redirect the program flow to execute a shell through System (/bin/sh).
-4. Engage in ASLR brute forcing to overcome this security measure.
-5. Redirect your exploit to execute any other preferred function from the libc, such as printf.
+By sending very long input, the program crashes, showing a vulnerability.
 
-## Repository Setup
+A special input (exploit) is then crafted to overwrite memory and change what the program does, such as jumping to a hidden function that grants access.
 
-1. **Description:** Create a repository on GitHub to host your project.
-2. **Structure:** Organize your repository with clear directories for each part.
-3. **Code Files:** Upload your "vuln" binary and the source code for your own vulnerable program.
-4. **Instructions:** Include detailed instructions for each part, explaining how to explore, exploit, and overcome security measures.
-5. **Snapshots:** Provide snapshots at crucial steps to visually guide users through the process.
-6. **Collaboration:** Highlight the importance of collaboration for group projects and encourage proper documentation.
+Screenshots are collected at each step as proof of progress.
+
+## Part 2: Making and Hacking a Custom Program
+
+A simple C program is created with an unsafe function such as gets(), which does not check input size.
+
+Normal input behaves fine, but very long input crashes the program, proving the presence of a buffer overflow.
+
+The exploit is performed using the Return-to-libc technique:
+
+Find the address of system() in the libc library.
+
+Find the address of the string "/bin/sh" in libc.
+
+Overwrite the program’s return address so that execution jumps to system("/bin/sh"), opening a shell.
+
+With ASLR disabled, the exploit works reliably.
+
+With ASLR enabled, memory addresses change every run, so the exploit only succeeds occasionally. Brute forcing (repeated attempts) is used to bypass this defense.
 
 ## Disclaimer
 
 Please note that this project is for educational purposes only. It is not intended to encourage any malicious activities. Always use your knowledge responsibly and respect ethical boundaries.
 
-Feel free to customize and expand upon this README to accurately represent your project and its contents. Happy learning and exploring the world of binary exploitation in Linux systems!
+Happy learning and exploring the world of binary exploitation in Linux systems!
 
